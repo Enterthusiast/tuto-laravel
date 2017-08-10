@@ -1,0 +1,1 @@
+Je viens d'une autre vue, je suis importé par un include
