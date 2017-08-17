@@ -22,10 +22,6 @@ class Post extends Model
         'updated_at',
         'published_at'
     ];
-    public static $rules = [
-        'title' => 'required|min:5',
-        'content' => 'required|min:10',
-    ];
 
     public function category() {
         return $this->belongsTo('App\Category');

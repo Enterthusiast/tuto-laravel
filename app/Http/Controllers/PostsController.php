@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Validator;
 use Session;
 
+use App\Http\Requests\EditPostRequest;
 use App\Post;
 use App\Category;
 use App\Tag;
@@ -48,10 +49,8 @@ class PostsController extends Controller
         return view('posts/show', compact('post'));
     }
 
-    public function update($id, Request $request)
+    public function update($id, EditPostRequest $request)
     {
-        $this->validate($request, Post::$rules);
-
         $formValue = $request->all();
         if(!isset($formValue['online'])) {
             $formValue['online'] = 0;
