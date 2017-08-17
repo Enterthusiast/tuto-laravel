@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Validator;
+use Session;
 
 use App\Post;
 use App\Category;
@@ -48,10 +50,13 @@ class PostsController extends Controller
 
     public function update($id, Request $request)
     {
+        $this->validate($request, Post::$rules);
+
         $formValue = $request->all();
         if(!isset($formValue['online'])) {
             $formValue['online'] = 0;
         }
+
         $post = Post::findOrFail($id);
         $post->update($formValue);
         // $post->tags()->sync($formValue['tags_id']);
@@ -63,13 +68,19 @@ class PostsController extends Controller
         
     }
 
-    public function edit($id)
+    public function edit($id, Request $request)
     {
+        $errors = Session::get('errors');
+        $errorMessages = null;
+        if(isset($errors)) {
+            $errorMessages = $errors->all();
+        }
+
         $post = Post::findOrFail($id);
         // $tags_id = $post->tags->pluck('id');
         $categories = Category::pluck('name', 'id');
         $tags = Tag::pluck('name', 'id');
         $options = ['method' => 'put', 'url' => route('post.update', $post)];
-        return view('posts/create', compact('post', 'categories', 'tags', 'options'));
+        return view('posts/create', compact('post', 'categories', 'tags', 'options', 'errorMessages'));
     }
 }

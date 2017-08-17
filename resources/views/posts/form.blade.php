@@ -1,5 +1,7 @@
 {{ Form::model($post, $options) }}
 
+@include('errors')
+
 <div class="form-group">
 {{ Form::label('title', 'Titre') }}
 {{ Form::text('title', null, ['class' => 'form-control']) }}
